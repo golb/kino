@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Касса Кинотеатра</title>
+    <link rel="stylesheet" href="public/css/style.css">
+</head>
+
+<body>
+    <div class="app">
+        <div class="screen">Экран</div>
+        
+        <div class="main">
+            <div class="rows" v-if="seats.length">
+                <ul class="seats"
+                    v-for="(row, index) in seats">
+                    <li is="seat"
+                        v-for="(seat, index) in row.seats"
+                        :key="seat.id"
+                        :row="row.row"
+                        :seat="seat"></li>
+                </ul>
+            </div>
+            
+            <div is="stats"></div>
+        </div>
+    </div>
+    
+    <script src="public/js/bundle.js"></script>
+</body>
+</html>
