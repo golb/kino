@@ -14,11 +14,9 @@ export default new Vuex.Store({
     },
     mutations: {
         clearData(state) {
-            if (state.messageSuccess) {
-                state.totalPrice = 0;
-                state.bookedSeatsHuman = [];
-                state.messageSuccess = false;
-            }
+            state.totalPrice = 0;
+            state.bookedSeatsHuman = [];
+            state.messageSuccess = false;
         },
         
         book(state, seats) {            
