@@ -1,22 +1,31 @@
 <template>
-    <div class="stats" v-if="this.$store.state.bookedSeatsHuman.length">
-        <div class="wrapper">
+    <div class="stats">
+        <div class="wrapper" v-if="bookedSeatsHuman.length && !messageSuccess">
             <div class="orderedSeats"><span>Вы выбрали места:</span> {{ youOrdered }}</div>
             <div class="total"><span>Стоимость:</span> {{ totalPrice }} руб.</div>
             <div class="buttons">
                 <div class="buy" @click="buyTickets">Купить</div>
                 <div class="cancel">Отмена</div>
             </div>
-            <div class="message" v-if="messageSuccess">Спасибо за заказ!</div>
         </div>
+        <div class="message" v-if="messageSuccess">Спасибо за заказ!</div>
     </div>
 </template>
 
 <script>
     export default {
         computed: {
+            bookedSeatsHuman() {
+                let arr = this.$store.state.seats.filter((item) => {
+                    return item.booked
+                })
+                return arr.map((item) => {
+                    return `ряд ${item.row} место ${item.seat}`
+                });
+            },
+            
             youOrdered() {
-                return this.$store.state.bookedSeatsHuman.join(', ')
+                return this.bookedSeatsHuman.join(', ')
             },
             
             totalPrice() {
@@ -30,10 +39,6 @@
         methods: {
             buyTickets() {
                 this.$store.commit('payOrder');
-            },
-            
-            cancelTickets() {
-                this.$store.commit('cancelOrder');
             }
         }
     }

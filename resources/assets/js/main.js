@@ -16,7 +16,6 @@ let app = new Vue({
     el: '.app',
     store,
     data: {
-        nextId: 1,
         rowSeats: [],
         rows: 10,
         lengthRow: 10,
@@ -29,29 +28,21 @@ let app = new Vue({
     },
     methods: {
         generateSeats() {
-            for (let i = 1; i <= this.lengthRow; i++) {
-                this.rowSeats.push({
-                    seat: i,
+            let nextId = 1;
+            let seat = 1;
+            let row = 1            
+            for (let i = 0; i < this.lengthRow * this.rows ; ++i) {
+                if (seat == this.lengthRow + 1) {
+                    seat = 1;
+                    row++;
+                }
+                this.seats.push({
+                    row: row, 
+                    seat: seat++,
                     purchased: false,
                     booked: false,
-                    price: 100
-                })
-            }
-        },
-        
-        generateRows() {
-            for (let i = 1; i <= this.rows; i++) {
-                this.seats.push({
-                    row: i,
-                    seats: this.rowSeats.map((item) => {
-                        return {
-                            seat: item.seat,
-                            purchased: item.purchased,
-                            booked: item.booked,
-                            price: item.price,
-                            id: this.nextId++
-                        }
-                    })
+                    price: 100,
+                    id: nextId++
                 });
             }
         },
@@ -61,22 +52,21 @@ let app = new Vue({
                 randRow;
             for (let i = 1; i <= this.initialPurchased; i++) {
                 randSeat = 1 + Math.floor(Math.random() * (this.lengthRow));
-                randRow = 1 + Math.floor(Math.random() * (this.lengthRow));
-                if (this.seats[randRow - 1].seats[randSeat - 1].purchased) {
-                    this.seats[randRow - 1].seats.some((item, i) => {
-                        randSeat = i;
+                randRow = 1 + Math.floor(Math.random() * 100);
+                if (this.seats[randRow - 1].seat[randSeat - 1] == randSeat) {
+                    this.seats.some((item, i) => {
+                        randRow = i;
                         return !item.purchased;
                     })
-                    this.seats[randRow - 1].seats[randSeat].purchased = true;
+                    this.seats[randRow].purchased = true;
                 } else {
-                    this.seats[randRow - 1].seats[randSeat - 1].purchased = true;
+                    this.seats[randRow - 1].purchased = true;
                 }
             }
         }
     },
     created: function () {
         this.generateSeats();
-        this.generateRows();
         this.randomPurchased();
     }
 });

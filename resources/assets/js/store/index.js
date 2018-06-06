@@ -8,50 +8,39 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         seats: [],
-        bookedSeatsHuman: [],
         totalPrice: 0,
         messageSuccess: false
     },
     mutations: {
         clearData(state) {
             state.totalPrice = 0;
-            state.bookedSeatsHuman = [];
             state.messageSuccess = false;
         },
         
         book(state, seats) {            
             state.seats.forEach((item) => {
-                item.seats.forEach((seat) => {
-                    if (seat.id == seats.id) seat.booked = true;
-                })
+                if (item.id == seats.id) {
+                    item.booked = true;
+                    state.totalPrice += +seats.price
+                }
             })
-            state.bookedSeatsHuman.push(`ряд ${seats.row} место ${seats.seat}`)
-            state.totalPrice += +seats.price
         },
         
         unbook(state, seats) {
             state.seats.forEach((item) => {
-                item.seats.forEach((seat) => {
-                    if (seat.id == seats.id) seat.booked = false;
-                })
+                if (item.id == seats.id) {
+                    item.booked = false;
+                    state.totalPrice -= +seats.price
+                }
             })
-            let indx;
-            state.bookedSeatsHuman.some((item, i) => {
-                indx = i;
-                return item == `ряд ${seats.row} место ${seats.seat}`
-            })
-            state.bookedSeatsHuman.splice(indx, 1)
-            state.totalPrice -= +seats.price
         },
         
         payOrder(state) {            
             state.seats.forEach((item) => {
-                item.seats.forEach((seat) => {
-                    if (seat.booked) {
-                        seat.purchased = true;
-                        seat.booked = false;
-                    }
-                })
+                if (item.booked) {
+                    item.purchased = true;
+                    item.booked = false;
+                }
             })
             state.messageSuccess = true;
         }

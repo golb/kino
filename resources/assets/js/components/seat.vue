@@ -1,18 +1,16 @@
 <template>
 <li :class="classSeat"
-    @click="chooseSeat"><!--Ряд: {{ row }}, место: {{ seat.seat }}--></li>
+    @click="chooseSeat"></li>
 </template>
 
 <script>
     export default {
-        props: ['row', 'seat'],        
+        props: ['id', 'purchased', 'booked', 'price'],        
         data: function() {
             return {
                 opts: {
-                    id: this.seat.id,
-                    row: this.row,
-                    seat: this.seat.seat,
-                    price: this.seat.price
+                    id: this.id,
+                    price: this.price
                 }
             }
         },        
@@ -25,11 +23,11 @@
             },
             
             isPurchased() {
-                return this.seat.purchased ? true : false
+                return this.purchased ? true : false
             },
             
             isBooked() {
-                return this.seat.booked ? true : false
+                return this.booked ? true : false
             }
         },
         methods: {

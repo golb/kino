@@ -14,12 +14,14 @@
         <div class="main">
             <div class="rows" v-if="seats.length">
                 <ul class="seats"
-                    v-for="(row, index) in seats">
+                    v-for="n in 10">
                     <li is="seat"
-                        v-for="(seat, index) in row.seats"
-                        :key="seat.id"
-                        :row="row.row"
-                        :seat="seat"></li>
+                        v-for="(i, index) in 10"
+                        :key="index"
+                        :id="seats[n * 10 - 10 + index].id"
+                        :booked="seats[n * 10 - 10 + index].booked"
+                        :price="seats[n * 10 - 10 + index].price"
+                        :purchased="seats[n * 10 - 10 + index].purchased"></li>
                 </ul>
             </div>
             
