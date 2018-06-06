@@ -1,6 +1,6 @@
 <template>
     <div class="stats">
-        <div class="wrapper" v-if="bookedSeatsHuman.length && !messageSuccess">
+        <div class="wrapper" v-if="youOrdered.length && !messageSuccess">
             <div class="orderedSeats"><span>Вы выбрали места:</span> {{ youOrdered }}</div>
             <div class="total"><span>Стоимость:</span> {{ totalPrice }} руб.</div>
             <div class="buttons">
@@ -15,16 +15,15 @@
 <script>
     export default {
         computed: {
-            bookedSeatsHuman() {
-                let arr = [];
-                this.$store.state.seats.forEach((item) => {
-                    if (item.booked) arr.push(`ряд ${item.row} место ${item.seat}`) 
-                });
-                return arr;
-            },
-            
             youOrdered() {
-                return this.bookedSeatsHuman.join(', ')
+                let phrase = ''
+                this.$store.state.seats.forEach((item) => {
+                    if (item.booked) {
+                        if (phrase.length) phrase += `, `
+                        phrase += `ряд ${item.row} место ${item.seat}`
+                    }
+                })
+                return phrase
             },
             
             totalPrice() {
