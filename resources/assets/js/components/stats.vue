@@ -16,12 +16,11 @@
     export default {
         computed: {
             bookedSeatsHuman() {
-                let arr = this.$store.state.seats.filter((item) => {
-                    return item.booked
-                })
-                return arr.map((item) => {
-                    return `ряд ${item.row} место ${item.seat}`
+                let arr = [];
+                this.$store.state.seats.forEach((item) => {
+                    if (item.booked) arr.push(`ряд ${item.row} место ${item.seat}`) 
                 });
+                return arr;
             },
             
             youOrdered() {
