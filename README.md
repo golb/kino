@@ -3,7 +3,7 @@
 ### 1. Установка / Installation
 `npm install`
 
-### 2. Сборка / Deploing
+### 2. Сборка / Build
 запустить команду `webpack` в консоли.
 
 ### 3. Запуск / Launching 
